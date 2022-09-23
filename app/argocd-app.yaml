@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app
+  namespace: argocd-operator
+spec:
+  destination:
+    server: 'https://kubernetes.default.svc'
+  project: default
+  source:
+    path: app
+    repoURL: 'https://github.com/prannoy47/argocd.git'
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
+---
