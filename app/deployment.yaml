@@ -1,8 +1,15 @@
+---
+apiVersion: project.openshift.io/v1
+kind: Project
+metadata:
+  name: argocd-operator
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend-v1
-  namespace: openshift-operators
+  namespace: argocd-operator
   annotations:
     app.openshift.io/vcs-ref: master
     app.openshift.io/vcs-uri: 'https://gitlab.com/ocp-demo/backend_quarkus'
