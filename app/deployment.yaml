@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend-v1
-  namespace: argocd-operator
+  namespace: openshift-operators
   annotations:
     app.openshift.io/vcs-ref: master
     app.openshift.io/vcs-uri: 'https://gitlab.com/ocp-demo/backend_quarkus'
