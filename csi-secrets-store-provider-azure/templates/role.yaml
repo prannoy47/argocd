@@ -1,0 +1,49 @@
+{{- if and .Values.rbac.pspEnabled (.Capabilities.APIVersions.Has "policy/v1beta1/PodSecurityPolicy") }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ template "sscdpa.psp.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+{{ include "sscdpa.labels" . | indent 2 }}
+rules:
+  - apiGroups: [ 'policy' ]
+    resources: [ 'podsecuritypolicies' ]
+    verbs: [ 'use' ]
+    resourceNames:
+      - {{ template "sscdpa.psp.fullname" . }}
+{{- end }}
+---
+{{- if .Values.enableArcExtension }}
+{{- if and .Values.Azure.Identity.isEnabled .Values.arc.enableMonitoring }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: arc-extension-identity-role
+  namespace: {{ .Release.Namespace }}
+  labels:
+{{ include "sscdpa.arc.labels" . | indent 4 }}
+rules:
+  - apiGroups: [ 'clusterconfig.azure.com' ]
+    resources: [ 'azureclusteridentityrequests' ]
+    verbs: [ 'get', 'create' ]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: arc-telegraf-role
+rules:
+- apiGroups: [""]
+  resources:
+  - pods
+  verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: arc-geneva-role
+rules:
+- apiGroups: [""]
+  resources: ["pods", "namespaces"]
+  verbs: ["get", "watch", "list"]
+{{- end }}
+{{- end }}

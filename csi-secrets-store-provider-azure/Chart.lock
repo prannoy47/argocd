@@ -1,0 +1,6 @@
+dependencies:
+- name: secrets-store-csi-driver
+  repository: "file://../charts"
+  version: 1.3.0
+digest: sha256:fe75dc495385275b6cd108f2684d06d990dadbe8be9d82adba637b362c2b51a9
+generated: "2022-12-14T04:06:15.0527901Z"
